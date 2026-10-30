@@ -1,0 +1,34 @@
+{
+  "source_projects": {
+    "Customer1": {
+      "dev": "gcp-project-dev",
+      "staging": "gcp-project-staging",
+      "prod": "gcp-project-prod"
+    }
+  },
+  "secrets": {
+    "Customer1": {
+      "dev": [
+        "secret1",
+        "secret2",
+        "secret3"
+      ],
+      "staging": [
+        "secret4"
+      ],
+      "prod": [
+        "secret1",
+        "secret2",
+        "secret3",
+        "secret4"
+      ]
+    }
+  },
+  "target_projects": {
+    "Customer1": {
+      "dev": ["gcp-project-dev1", "gcp-project-dev2", "gcp-project-dev3"],
+      "staging": ["gcp-project-staging1"],
+      "prod": ["gcp-project-prod1"]
+    }
+  }
+}
