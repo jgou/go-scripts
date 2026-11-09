@@ -33,3 +33,4 @@ go.work.sum
 # .vscode/
 
 gcp-secret-copy/settings.json
+/gcp-secret-copy/gcp-secret-copy

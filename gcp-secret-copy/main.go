@@ -10,9 +10,14 @@ import (
 	"cloud.google.com/go/secretmanager/apiv1/secretmanagerpb"
 )
 
+type SecretMapping struct {
+	SourceName string `json:"source_name"`
+	TargetName string `json:"target_name"`
+}
+
 type Configuration struct {
 	SourceProjects map[string]map[string]string `json:"source_projects"`
-	Secrets        map[string]map[string][]string `json:"secrets"`
+	Secrets        map[string]map[string][]SecretMapping `json:"secrets"`
 	TargetProjects map[string]map[string][]string `json:"target_projects"`
 }
 
@@ -102,11 +107,11 @@ func copySecrets(config *Configuration, customer string, environment string, app
 			continue
 		}
 		for _, secret := range secrets {
-			sourceSecret := fmt.Sprintf("projects/%s/secrets/%s", config.SourceProjects[customer][env], secret)
-			targetSecret := fmt.Sprintf("projects/%s/secrets/%s", config.TargetProjects[customer][env][0], secret)
+			sourceSecret := fmt.Sprintf("projects/%s/secrets/%s", config.SourceProjects[customer][env], secret.SourceName)
+			targetSecret := fmt.Sprintf("projects/%s/secrets/%s", config.TargetProjects[customer][env][0], secret.TargetName)
 
 			if apply {
-				fmt.Println("Applying copy for secret:", secret)
+				fmt.Println("Applying copy for secret:", secret.SourceName, "->", secret.TargetName)
 				data, err := readLatestVersion(ctx, client, sourceSecret)
 				if err != nil {
 					fmt.Println("Error reading latest version of secret:", err)
@@ -118,7 +123,7 @@ func copySecrets(config *Configuration, customer string, environment string, app
 					continue
 				}
 			} else {
-				fmt.Println("Dry run: not applying copy for secret:", secret)
+				fmt.Println("Dry run: not applying copy for secret:", secret.SourceName, "->", secret.TargetName)
 			}
 		}
 	}

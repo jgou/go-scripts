@@ -4,10 +4,10 @@ A small Go CLI that copies the **latest version** of selected secrets from one G
 
 For each configured secret it:
 
-1. Reads `projects/<source>/secrets/<name>/versions/latest`.
-2. Adds that payload as a **new version** of `projects/<target>/secrets/<name>`.
+1. Reads `projects/<source>/secrets/<source_name>/versions/latest`.
+2. Adds that payload as a **new version** of `projects/<target>/secrets/<target_name>`.
 
-The secret must already exist in the target project (only a new version is added; the secret itself is not created). The secret name is the same in both projects.
+The secret must already exist in the target project (only a new version is added; the secret itself is not created). The secret name may differ between the source and target projects (see `secrets` below).
 
 By default the tool runs as a **dry run** and only prints what it would copy. Nothing is read or written until you pass `-apply`.
 
@@ -38,7 +38,7 @@ The config has three top-level maps, all keyed by **customer** and then **enviro
     "Customer1": { "dev": "gcp-project-dev" }
   },
   "secrets": {
-    "Customer1": { "dev": ["secret1", "secret2"] }
+    "Customer1": { "dev": [{ "source_name": "secret1", "target_name": "secret1-renamed" }] }
   },
   "target_projects": {
     "Customer1": { "dev": ["gcp-project-dev1"] }
@@ -47,7 +47,7 @@ The config has three top-level maps, all keyed by **customer** and then **enviro
 ```
 
 - `source_projects`: the project ID to read secrets from (a single string).
-- `secrets`: the list of secret names to copy.
+- `secrets`: the list of secrets to copy, each with a `source_name` (in the source project) and a `target_name` (in the target project). Both are required.
 - `target_projects`: a list of project IDs; **only the first entry is currently used**.
 
 Validation on load:
