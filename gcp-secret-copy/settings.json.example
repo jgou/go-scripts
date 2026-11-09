@@ -9,26 +9,34 @@
   "secrets": {
     "Customer1": {
       "dev": [
-        "secret1",
-        "secret2",
-        "secret3"
+        { "source_name": "secret1", "target_name": "secret1" },
+        { "source_name": "secret2", "target_name": "secret2" },
+        { "source_name": "secret3", "target_name": "secret3" }
       ],
       "staging": [
-        "secret4"
+        { "source_name": "secret4", "target_name": "secret4" }
       ],
       "prod": [
-        "secret1",
-        "secret2",
-        "secret3",
-        "secret4"
+        { "source_name": "secret1", "target_name": "secret1" },
+        { "source_name": "secret2", "target_name": "secret2" },
+        { "source_name": "secret3", "target_name": "secret3" },
+        { "source_name": "secret4", "target_name": "secret4" }
       ]
     }
   },
   "target_projects": {
     "Customer1": {
-      "dev": ["gcp-project-dev1", "gcp-project-dev2", "gcp-project-dev3"],
-      "staging": ["gcp-project-staging1"],
-      "prod": ["gcp-project-prod1"]
+      "dev": [
+        "gcp-project-dev1",
+        "gcp-project-dev2",
+        "gcp-project-dev3"
+      ],
+      "staging": [
+        "gcp-project-staging1"
+      ],
+      "prod": [
+        "gcp-project-prod1"
+      ]
     }
   }
 }
